@@ -12,9 +12,16 @@ public class GraphTrends {
 
     public double updateVal(double old){
         if(Math.random()>=0.5){
-            return old*(1+(Math.random() * (max - min) + min));
+            old *=(1+(Math.random() * (max - min) + min));
         }else{
-            return old*(1-(Math.random() * (max - min) + min));
+            old *=(1-(Math.random() * (max - min) + min));
         }
+        if(old>100){
+            old *=(1-(Math.random() * (max/2 - min/2) + min/2));
+        }
+        if(old<=1){
+            old *=(1+(Math.random() * (max*2 - min*2) + min*2));
+        }
+        return old;
     }
 }
