@@ -16,11 +16,13 @@ public class Main {
         max = scan.nextInt();
         System.out.print("Please enter your minimum change percent (out of 100): ");
         min = scan.nextInt();
+        System.out.print("How often would you like the values to update? (in seconds): ");
+        int s = scan.nextInt();
         DataStorage a = new DataStorage(start,max,min);
         while (run){
             a.newPoint();
             System.out.print(draw.drawGraph(a.getGraphPoints()));
-            time.sleep(5);
+            time.sleep(s);
         }
     }
 }
