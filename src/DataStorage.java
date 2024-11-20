@@ -20,6 +20,7 @@ public class DataStorage {
         if(graphPoints.size()>20){
             graphPoints.remove(graphPoints.getFirst());
         }
+        System.out.println(graphPoints);
     }
 
     public ArrayList<Double> getGraphPoints(){

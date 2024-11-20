@@ -1,9 +1,12 @@
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
     static int max, min;
     static double start;
-    public static void main(String[] args) {
+    static boolean run = true;
+    static TimeUnit time = TimeUnit.SECONDS;
+    public static void main(String[] args) throws InterruptedException {
         Scanner scan = new Scanner(System.in);
         GraphDrawing draw = new GraphDrawing();
         System.out.println("Welcome to the Potato Chip Factory");
@@ -14,10 +17,10 @@ public class Main {
         System.out.print("Please enter your minimum change percent (out of 100): ");
         min = scan.nextInt();
         DataStorage a = new DataStorage(start,max,min);
-        a.newPoint();
-        a.newPoint();
-        a.newPoint();
-        a.newPoint();
-        System.out.print(draw.drawGraph(a.getGraphPoints()));
+        while (run){
+            a.newPoint();
+            System.out.print(draw.drawGraph(a.getGraphPoints()));
+            time.sleep(5);
+        }
     }
 }
