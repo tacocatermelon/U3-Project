@@ -2,21 +2,11 @@ import java.util.ArrayList;
 
 public class GraphDrawing {
     public String drawGraph(ArrayList<Double> points){
-        String graph = "";
-        for(int i = -1;i<=10;i++){
-            if(i == -1){
-                graph += "==";
-            }else {
-                graph += "||";
-            }
+        String graph = "||====================================================================================================||\n";
+        for(int i = 0;i<10;i++){
+            graph += "||";
             for(int x = 0;x<20;x++){
-                if(i == -1){
-                    if(x==0){
-                        System.out.print("||===");
-                    }else{
-                        System.out.print("=====");
-                    }
-                }else if (x<points.size()&&Math.round(points.get(x)/10)==10-i){
+                if (x<points.size()&&Math.round(points.get(x)/10)==10-i){
                     graph += "  o  ";
                 }else if(x<points.size()&&points.get(x)/10>10-i){
                     graph += "  |  ";
@@ -26,6 +16,24 @@ public class GraphDrawing {
             }
             graph+= "||\n";
         }
+        graph+="||====================================================================================================||\n  ";
+        for(int y = 0;y<20;y++){
+            if(y<points.size()) {
+                graph += String.format("%.1f", points.get(y));
+                for (int z = 0; z < 5 - ((String.format("%.1f", points.get(y)).length())); z++) {
+                    graph += " ";
+                }
+                if (y + 1 < points.size() && (String.format("%.1f", points.get(y + 1)).length()) < (String.format("%.1f", points.get(y)).length())) {
+                    graph += " ";
+                }
+                if (y >= 1) {
+                    if (String.format("%.1f", points.get(y)).length() < (String.format("%.1f", points.get(y - 1)).length())) {
+                        graph += " ";
+                    }
+                }
+            }
+        }
+        graph+="\n";
         return graph;
     }
 }
