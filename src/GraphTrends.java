@@ -2,8 +2,7 @@ public class GraphTrends {
 
     static double max, min;
 
-    public GraphTrends(){
-    }
+    public GraphTrends(){}
 
     public void setMaxMin(int max, int min){
         GraphTrends.max = max/100.0;

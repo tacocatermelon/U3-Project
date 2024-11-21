@@ -2,10 +2,12 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
+
     static int max, min;
     static double start;
     static boolean run = true;
     static TimeUnit time = TimeUnit.SECONDS;
+
     public static void main(String[] args) throws InterruptedException {
         Scanner scan = new Scanner(System.in);
         GraphDrawing draw = new GraphDrawing();
@@ -19,9 +21,10 @@ public class Main {
         System.out.print("How often would you like the values to update? (in seconds): ");
         int s = scan.nextInt();
         DataStorage a = new DataStorage(start,max,min);
+
         while (run){
             a.newPoint();
-            System.out.print(draw.drawGraph(a.getGraphPoints()));
+            System.out.print(draw.drawGraph(a.getGraphPoints(),a.getMaxIdx()));
             time.sleep(s);
         }
     }
