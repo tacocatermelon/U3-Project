@@ -18,16 +18,16 @@ public class Main {
             System.out.print("Please enter a valid value(1-100): ");
             start = scan.nextDouble();
         }
-        System.out.print("Please enter your max change percent (1-100): ");
+        System.out.print("Please enter your max change percent (1-200): ");
         max = scan.nextInt();
         while (max>100||max<1){
-            System.out.print("Please enter a valid percent (1-100): ");
+            System.out.print("Please enter a valid percent (1-200): ");
             max = scan.nextInt();
         }
-        System.out.print("Please enter your minimum change percent (1-100): ");
+        System.out.print("Please enter your minimum change percent (1-200): ");
         min = scan.nextInt();
         while (min>100||min<1){
-            System.out.print("Please enter a valid percent (1-100): ");
+            System.out.print("Please enter a valid percent (1-200): ");
             min = scan.nextInt();
         }
         System.out.print("How often would you like the values to update? (in seconds): ");
