@@ -20,14 +20,18 @@ public class Main {
         }
         System.out.print("Please enter your max change percent (1-200): ");
         max = scan.nextInt();
-        while (max>100||max<1){
+        while (max>200||max<1){
             System.out.print("Please enter a valid percent (1-200): ");
             max = scan.nextInt();
         }
         System.out.print("Please enter your minimum change percent (1-200): ");
         min = scan.nextInt();
-        while (min>100||min<1){
+        while (min>200||min<1){
             System.out.print("Please enter a valid percent (1-200): ");
+            min = scan.nextInt();
+        }
+        while (min>max){
+            System.out.print("Please enter a value less than the max value (1-200): ");
             min = scan.nextInt();
         }
         System.out.print("How often would you like the values to update? (in seconds): ");
@@ -42,7 +46,7 @@ public class Main {
         System.out.print("How long would you like the graph to run for? (in seconds, \"X\" if infinite loop): ");
         String temp = scan.nextLine();
         while (!temp.equals("X")&&Integer.parseInt(temp)<1){
-            System.out.print("Please enter a value greater than 1, or X to run infinitely");
+            System.out.print("Please enter a value greater than 1, or X to run infinitely: ");
             temp = scan.nextLine();
         }
         if(temp.equals("X")){
