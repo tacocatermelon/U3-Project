@@ -4,44 +4,46 @@ public class GraphDrawing {
 
     public String drawGraph(ArrayList<Double> points, int max){
 
-        String graph = "\n||====================================================================================================||\n";
+        StringBuilder graph = new StringBuilder("\n||====================================================================================================||\n");
 
         for(int i = 0;i<10;i++){
-            graph += "||";
+            graph.append("||");
             for(int x = 0;x<20;x++){
                 if (x<points.size()&&Math.round(points.get(x)/10)==10-i){
                     if(x == max){
-                        graph += "  x  ";
+                        graph.append("  x  ");
                     }else {
-                        graph += "  o  ";
+                        graph.append("  o  ");
                     }
                 }else if(x<points.size()&&points.get(x)/10>10-i){
-                    graph += "  |  ";
+                    graph.append("  |  ");
                 }else{
-                    graph+= "     ";
+                    graph.append("     ");
                 }
             }
-            graph+= "||\n";
+            graph.append("||\n");
         }
 
-        graph+="||====================================================================================================||\n  ";
-
+        graph.append("||====================================================================================================||\n   ");
+        if(String.format("%.1f", points.getFirst()).length()==4){
+            graph = new StringBuilder(graph.substring(0,graph.length()-1));
+        }
         for(int y = 0;y<20;y++){
             if(y<points.size()) {
-                graph += String.format("%.1f", points.get(y));
+                graph.append(String.format("%.1f", points.get(y)));
                 for (int z = 0; z < 5 - ((String.format("%.1f", points.get(y)).length())); z++) {
-                        graph += " ";
+                        graph.append(" ");
                 }
                 if(y + 1 < points.size() && (String.format("%.1f", points.get(y+1)).length()>(String.format("%.1f", points.get(y)).length()))) {
-                    graph = graph.substring(0,graph.length()-1);
+                    graph = new StringBuilder(graph.substring(0, graph.length() - 1));
                 }
                 if (y + 1 < points.size() && (String.format("%.1f", points.get(y + 1)).length()) < (String.format("%.1f", points.get(y)).length())) {
-                    graph += " ";
+                    graph.append(" ");
                 }
             }
         }
 
-        graph+="\n";
-        return graph;
+        graph.append("\n");
+        return graph.toString();
     }
 }
