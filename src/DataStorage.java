@@ -5,7 +5,7 @@ public class DataStorage {
     ArrayList<Double> graphPoints = new ArrayList<>();
     ArrayList<Double> points = new ArrayList<>();
     GraphTrends a = new GraphTrends();
-    double c, last;
+    double c, last, min = 100;;
     int maxIdx= 0;
 
     public DataStorage (double start, int max, int min){
@@ -23,6 +23,22 @@ public class DataStorage {
         return maxIdx;
     }
 
+    public double getAvg(){
+        double sum = 0;
+        for(int i = 0;i<graphPoints.size();i++){
+            sum += graphPoints.get(i);
+        }
+        return sum/graphPoints.size();
+    }
+
+    public double getMax(){
+        return graphPoints.get(maxIdx);
+    }
+
+    public double getMin(){
+        return min;
+    }
+
     public void newPoint(){
         last = graphPoints.getLast();
         graphPoints.add(a.updateVal(last));
@@ -33,6 +49,9 @@ public class DataStorage {
         for(int i = 0;i<graphPoints.size();i++){
             if(graphPoints.get(i)>graphPoints.get(maxIdx)){
                 maxIdx = i;
+            }
+            if(graphPoints.get(i)<min){
+                min = graphPoints.get(i);
             }
         }
     }
