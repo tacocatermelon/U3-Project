@@ -16,10 +16,10 @@ public class GraphTrends {
             old *=(1-(Math.random() * (max - min) + min));
         }
         if(old>100){
-            old *=(1-(Math.random() * (max/2 - min/2) + min/2));
+            old = 100*(1-(Math.random() * (max/2 - min/2) + min/2));
         }
         if(old<=1){
-            old *=(1+(Math.random() * (max*2 - min*2) + min*2));
+            old = 1.5*(1+(Math.random() * (max*2 - min*2) + min*2));
         }
         return old;
     }
