@@ -5,8 +5,9 @@ public class DataStorage {
     ArrayList<Double> graphPoints = new ArrayList<>();
     ArrayList<Double> points = new ArrayList<>();
     GraphTrends a = new GraphTrends();
-    double c, last, min = 100;;
+    double c, last, min = 100, randVal;
     int maxIdx= 0;
+    boolean rand;
 
     public DataStorage (double start, int max, int min){
         c = start;
@@ -17,6 +18,10 @@ public class DataStorage {
 
     public ArrayList<Double> getGraphPoints(){
         return graphPoints;
+    }
+
+    public double getCurrentPoint(){
+        return graphPoints.getLast();
     }
 
     public int getMaxIdx(){
@@ -41,18 +46,44 @@ public class DataStorage {
 
     public void newPoint(){
         last = graphPoints.getLast();
-        graphPoints.add(a.updateVal(last));
-        points.add(a.updateVal(last));
-        if(graphPoints.size()>20){
-            graphPoints.remove(graphPoints.getFirst());
-        }
-        for(int i = 0;i<graphPoints.size();i++){
-            if(graphPoints.get(i)>graphPoints.get(maxIdx)){
-                maxIdx = i;
+        System.out.println(rand);
+        System.out.println(randVal);
+        if(!rand) {
+            graphPoints.add(a.updateVal(last));
+            points.add(a.updateVal(last));
+            if (graphPoints.size() > 20) {
+                graphPoints.remove(graphPoints.getFirst());
             }
-            if(graphPoints.get(i)<min){
-                min = graphPoints.get(i);
+            for (int i = 0; i < graphPoints.size(); i++) {
+                if (graphPoints.get(i) > graphPoints.get(maxIdx)) {
+                    maxIdx = i;
+                }
+                if (graphPoints.get(i) < min) {
+                    min = graphPoints.get(i);
+                }
+            }
+        }else{
+            graphPoints.add(randVal);
+            points.add(randVal);
+            if (graphPoints.size() > 20) {
+                graphPoints.remove(graphPoints.getFirst());
+            }
+            for (int i = 0; i < graphPoints.size(); i++) {
+                if (graphPoints.get(i) > graphPoints.get(maxIdx)) {
+                    maxIdx = i;
+                }
+                if (graphPoints.get(i) < min) {
+                    min = graphPoints.get(i);
+                }
             }
         }
+        rand = false;
+    }
+
+    public double newRandom(){
+        rand = true;
+        last = graphPoints.getLast();
+        randVal = a.updateRandom(last);
+        return randVal;
     }
 }
