@@ -46,8 +46,6 @@ public class DataStorage {
 
     public void newPoint(){
         last = graphPoints.getLast();
-        System.out.println(rand);
-        System.out.println(randVal);
         if(!rand) {
             graphPoints.add(a.updateVal(last));
             points.add(a.updateVal(last));
