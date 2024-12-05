@@ -81,6 +81,7 @@ public class MainRunner {
             data.newPoint();
             System.out.print(draw.drawGraph(data.getGraphPoints(),data.getMaxIdx()));
             System.out.printf("Price: $%.2f%n",data.getCurrentPoint());
+            System.out.printf("Avg Price: $%.2f%n",data.getAvg());
             if(random){
                 System.out.printf("RANDOM EVENT! new value: $%.2f%n",randomized);
                 random = false;
