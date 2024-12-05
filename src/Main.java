@@ -83,7 +83,7 @@ public class Main {
             }
         };
 
-        List<Callable<Void>> taskList = new ArrayList<Callable<Void>>();
+        List<Callable<Void>> taskList = new ArrayList<>();
         taskList.add(callable1);
         taskList.add(callable2);
         ExecutorService executor = Executors.newFixedThreadPool(2);
