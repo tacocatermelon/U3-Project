@@ -12,16 +12,16 @@ public class MainRunner {
     private static int mod;
     private static int idx = 0;
     private static int runTime;
+    private static int check;
+    private static int cycles = 0;
+    private static int s;
+    private static double randomized;
     private static boolean run = true;
     private static boolean inf;
     private static boolean random;
     private static boolean condition;
     private static boolean greater;
     private static boolean avg;
-    private static double randomized;
-    private static int check;
-    private static int cycles = 0;
-    private static int s;
     private static final TimeUnit time = TimeUnit.SECONDS;
 
     public MainRunner(DataStorage data, GraphDrawing drawing, int runTime, int s, int mod, int check, boolean inf, boolean condition, boolean greater, boolean avg){
@@ -31,7 +31,6 @@ public class MainRunner {
         MainRunner.s = s;
         MainRunner.mod = mod;
         MainRunner.inf = inf;
-        MainRunner.cycles = cycles;
         MainRunner.condition = condition;
         MainRunner.greater = greater;
         MainRunner.avg = avg;

@@ -5,8 +5,11 @@ public class DataStorage {
     ArrayList<Double> graphPoints = new ArrayList<>();
     ArrayList<Double> points = new ArrayList<>();
     GraphTrends a = new GraphTrends();
-    double c, last, min = 100, randVal;
     int maxIdx= 0;
+    double c;
+    double last;
+    double min = 100;
+    double randVal;
     boolean rand;
 
     public DataStorage (double start, int max, int min){
