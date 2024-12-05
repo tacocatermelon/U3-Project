@@ -8,9 +8,19 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
 
-    private static int min, idx = 0, runTime, s, mod;
+    private static int idx = 0;
+    private static int runTime;
+    private static int s;
+    private static int mod;
+    private static int cycles = 0;
+    private static int check;
     private static double randomized;
-    private static boolean run = true, inf, random;
+    private static boolean run = true;
+    private static boolean inf;
+    private static boolean random;
+    private static boolean condition = false;
+    private static boolean greater = false;
+    private static boolean avg = false;
     private static final TimeUnit time = TimeUnit.SECONDS;
 
     public static void main(String[] args) throws InterruptedException {
@@ -30,12 +40,12 @@ public class Main {
             max = scan.nextInt();
         }
         System.out.print("Please enter your minimum change percent (1-200): ");
-        min = scan.nextInt();
-        while (min>200||min<1){
+        int min = scan.nextInt();
+        while (min >200|| min <1){
             System.out.print("Please enter a valid percent (1-200): ");
             min = scan.nextInt();
         }
-        while (min> max){
+        while (min > max){
             System.out.print("Please enter a value less than the max value (1-200): ");
             min = scan.nextInt();
         }
@@ -45,19 +55,64 @@ public class Main {
             System.out.print("Please enter a value greater than 1: ");
             s = scan.nextInt();
         }
-        DataStorage a = new DataStorage(start, max,min);
+        DataStorage a = new DataStorage(start, max, min);
 
-        scan.nextLine();
-        System.out.print("How long would you like the graph to run for? (in seconds, \"X\" if infinite loop): ");
-        String temp = scan.nextLine();
-        while (!temp.equals("X")&&Integer.parseInt(temp)<1){
-            System.out.print("Please enter a value greater than 1, or X to run infinitely: ");
-            temp = scan.nextLine();
+
+        System.out.println("""
+                How long would you like the loop to run for?
+                   1. specific amount of time
+                   2. until an end condition
+                   3. infinitely""");
+        int tempInt = scan.nextInt();
+        while (!(tempInt==1||tempInt==2||tempInt==3)) {
+            System.out.print("Please enter a value from 1 to 3: ");
+            tempInt = scan.nextInt();
         }
-        if(temp.equals("X")){
-            inf = true;
+        if (tempInt == 1) {
+            System.out.print("How long would you like the graph to run for? (in seconds): ");
+            tempInt = scan.nextInt();
+            while (tempInt<1){
+                System.out.print("Please enter a value greater than 1: ");
+                tempInt = scan.nextInt();
+            }
+            runTime = tempInt;
+        }else if(tempInt == 2){
+            System.out.println("""
+                    What would you like to check for?
+                       1. point greater than a value
+                       2. point less than a value
+                       3. avg value greater than a value
+                       4. avg value less than a value""");
+            tempInt = scan.nextInt();
+            while (!(tempInt==1||tempInt==2||tempInt==3||tempInt==4)){
+                System.out.print("Please enter a value from 1 to 4: ");
+                tempInt = scan.nextInt();
+            }
+            if(tempInt==1){
+                condition = true;
+                greater = true;
+                avg = false;
+            }else if(tempInt==2){
+                condition = true;
+                greater = true;
+                avg = false;
+            }else if(tempInt==3){
+                condition = true;
+                greater = true;
+                avg = true;
+            }else{
+                condition = true;
+                greater = false;
+                avg = true;
+            }
+            System.out.print("What is the value you would like to check against: ");
+            check = scan.nextInt();
+            while (check<1||check>100){
+                System.out.print("Please enter a valid value (1-100): ");
+                check = scan.nextInt();
+            }
         }else{
-            runTime = Integer.parseInt(temp);
+            inf = true;
         }
 
         System.out.print("Would you like a chance for random events? (y/n): ");
@@ -91,16 +146,17 @@ public class Main {
             executor.invokeAll(taskList);
         } catch (InterruptedException _){}
 
-        System.out.printf("The average value was %.2f%n",a.getAvg());
-        System.out.printf("The max value was %.2f%n",a.getMax());
-        System.out.printf("The minimum value was %.2f%n",a.getMin());
+        System.out.printf("The average value is $%.2f%n",a.getAvg());
+        System.out.printf("The max value is $%.2f%n",a.getMax());
+        System.out.printf("The minimum value is $%.2f%n",a.getMin());
+        System.out.println("There were "+cycles+" points added total.");
     }
 
 
     private static void run(DataStorage data, GraphDrawing draw) throws InterruptedException {
         while (run){
             idx++;
-            if(!inf&&idx>=runTime/s){
+            if(end(data)){
                 run = false;
                 break;
             }
@@ -111,6 +167,7 @@ public class Main {
                 System.out.printf("RANDOM EVENT! new value: $%.2f%n",randomized);
                 random = false;
             }
+            cycles ++;
             time.sleep(s);
         }
     }
@@ -123,6 +180,30 @@ public class Main {
                 randomized = data.newRandom();
             }
             time.sleep(s);
+        }
+    }
+
+    private static boolean end(DataStorage data){
+        if(condition){
+            if(avg){
+                if(greater){
+                    return data.getAvg() >= check;
+                }else{
+                    return data.getAvg() <= check;
+                }
+            }else{
+                if(greater){
+                    return data.getMax() >= check;
+                }else{
+                    return data.getMin() <= check;
+                }
+            }
+        }else{
+            if(inf){
+                return false;
+            }else{
+                return idx >= runTime / s;
+            }
         }
     }
 }
