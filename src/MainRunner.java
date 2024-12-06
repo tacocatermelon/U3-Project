@@ -52,8 +52,6 @@ public class MainRunner {
                 return null;
             }
         };
-
-
         List<Callable<Void>> taskList = new ArrayList<>();
         taskList.add(callable1);
         taskList.add(callable2);
@@ -88,7 +86,6 @@ public class MainRunner {
             }
         }
     }
-
 
     private static void randomEvent(int mod, DataStorage data) throws InterruptedException {
         while (run) {

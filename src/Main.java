@@ -44,7 +44,6 @@ public class Main {
         }
         DataStorage a = new DataStorage(start, max, min);
 
-
         System.out.println("""
                 How long would you like the loop to run for?
                    1. specific amount of time
