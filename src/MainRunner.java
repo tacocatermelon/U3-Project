@@ -81,6 +81,7 @@ public class MainRunner {
      * start method, calls run and randomEvent in parallel.
      */
     public void start() {
+        //callable method for run
         Callable<Void> callable1 = new Callable<Void>() {
             @Override
             public Void call() throws Exception {
@@ -88,6 +89,7 @@ public class MainRunner {
                 return null;
             }
         };
+        //callable method for randomEvent
         Callable<Void> callable2 = new Callable<Void>() {
             @Override
             public Void call() throws Exception {
@@ -95,10 +97,12 @@ public class MainRunner {
                 return null;
             }
         };
+        //adds both callable methods to taskList
         List<Callable<Void>> taskList = new ArrayList<>();
         taskList.add(callable1);
         taskList.add(callable2);
         ExecutorService executor = Executors.newFixedThreadPool(2);
+        //executes both methods in parallel
         try {
             executor.invokeAll(taskList);
         } catch (InterruptedException _) {}
@@ -123,17 +127,22 @@ public class MainRunner {
     private static void run(DataStorage data, GraphDrawing draw) throws InterruptedException {
         while (run){
             idx++;
+            //if end condition met sets run to false and terminates the program
             if(end(data)){
                 run = false;
                 break;
             }
+            //time delay if not first point
             if(idx!=1) {
                 time.sleep(s);
             }
+            //adds new point based on rules in DataStorage
             data.newPoint();
+            //prints graph from GraphDrawing, most recent point, and avg over all graphed points
             System.out.print(draw.drawGraph(data.getGraphPoints(),data.getMaxIdx()));
             System.out.printf("Price: $%.2f%n",data.getCurrentPoint());
             System.out.printf("Avg Price: $%.2f%n",data.getAvg());
+            //prints randomized value if applicable
             if(random){
                 System.out.printf("RANDOM EVENT! new value: $%.2f%n",randomized);
                 random = false;
@@ -151,10 +160,12 @@ public class MainRunner {
      */
     private static void randomEvent(int mod, DataStorage data) throws InterruptedException {
         while (run) {
+            //determines if random event
             if (Math.random() * (1+(mod / 100.0)) >= 0.95) {
                 random = true;
                 randomized = data.newRandom();
             }
+            //time delay
             time.sleep(s);
         }
     }
@@ -167,23 +178,31 @@ public class MainRunner {
      * @return true if end condition met, false otherwise
      */
     private static boolean end(DataStorage data){
+        //if there is an end condition checks possible conditions
         if(condition){
+            //checks if end condition is based on avg value
             if(avg){
+                //checks if avg is greater/less than reference value
                 if(greater){
                     return data.getAvg() >= check;
                 }else{
                     return data.getAvg() <= check;
                 }
+            //if not based on avg end condition is based on most recent point
             }else{
+                //checks if point is greater/less than reference value
                 if(greater){
                     return data.getMax() >= check;
                 }else{
                     return data.getMin() <= check;
                 }
             }
+        //if no end condition checks time-based conditions
         }else{
+            //if program runs infinitely always returns false
             if(inf){
                 return false;
+            //if number of cycles * seconds per cycle is >= runtime returns true to terminate
             }else{
                 return idx >= runTime / s;
             }

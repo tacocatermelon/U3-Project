@@ -36,14 +36,18 @@ public class GraphTrends {
      * @return new value
      */
     public double updateVal(double old){
+        //50% chance for increase 50% chance for decrease
+        //increases/decreases by a random % between the max and min values
         if(Math.random()>=0.5){
             old *=(1+(Math.random() * (max - min) + min));
         }else{
             old *=(1-(Math.random() * (max - min) + min));
         }
+        //if value exceeds 100 decreases it by a smaller random amount
         if(old>100){
             old = 100*(1-(Math.random() * (max/2 - min/2) + min/2));
         }
+        //if value is 1 or less increases it by a larger random amount
         if(old<=1){
             old = 1.5*(1+(Math.random() * (max*2 - min*2) + min*2));
         }
@@ -59,25 +63,33 @@ public class GraphTrends {
      */
     public double updateRandom(double old){
         double rand = Math.random();
-        if(rand<=.1){ //0-0.1 (0.1)
+        //10% chance for value to be increased by a larger amount
+        if(rand<=.1){ //0-0.1 (0.1) - 10%
             old *=(1+(Math.random() * (2*(max - min)) + min));
-        }else if(rand<=.25){ //0.1-0.25 (0.15)
+        //15% chance for value to be increased by a larger amount
+        }else if(rand<=.25){ //0.1-0.25 (0.15) - 15%
             old *=100*(Math.random() * (2*(max - min)) + min);
-        }else if(rand<=.5){ //0.25-0.5 (0.25)
-            old = 100*(Math.random()-0.5);
-        }else if(rand<=.6){ //0.5-0.6 (0.1)
+        //25% chance for value to be 60 increased or decreased by up to 50%
+        }else if(rand<=.5){ //0.25-0.5 (0.25) - 25%
+            old = 60*(1+(Math.random()-0.5));
+        //10% chance for value to be decreased by a larger amount
+        }else if(rand<=.6){ //0.5-0.6 (0.1) - 10%
             old *=(1-(Math.random() * (2*(max - min)) + min));
-        }else if(rand<=.75){ //0.6-0.75(0.15)
+        //15% chance for value to be set to a negative
+        }else if(rand<=.75){ //0.6-0.75(0.15) - 15%
             old *=100*(Math.random() * (2*(min - max)) + min);
-        }else{ //0.75-0.99 (0.25)
+        //25% chance to use normal rules
+        }else{ //0.75-0.99 (0.25) - 25%
             old = updateVal(old);
         }
+        //limit checks
         if(old>100){
             old = 100*(1-(Math.random() * (max/2 - min/2) + min/2));
         }
         if(old<=1){
             old = 1.5*(1+(Math.random() * (max*2 - min*2) + min*2));
         }
+
         return old;
     }
 }

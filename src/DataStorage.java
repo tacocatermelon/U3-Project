@@ -69,6 +69,7 @@ public class DataStorage {
      * @return avg value on the graph
      */
     public double getAvg(){
+        //adds all points on graph and divides by number of points
         double sum = 0;
         for(int i = 0;i<graphPoints.size();i++){
             sum += graphPoints.get(i);
@@ -99,12 +100,17 @@ public class DataStorage {
      * adds value of the random point if there is one.
      */
     public void newPoint(){
+        //gets most recent point
         last = graphPoints.getLast();
+        //checks if there is already a randomized value
         if(!rand) {
+            //new point made and added to the graph
             graphPoints.add(a.updateVal(last));
+            //if graph has more than 20 points oldest point is removed
             if (graphPoints.size() > 20) {
                 graphPoints.remove(graphPoints.getFirst());
             }
+            //checks if new point is new maximum value
             for (int i = 0; i < graphPoints.size(); i++) {
                 if (graphPoints.get(i) > graphPoints.get(maxIdx)) {
                     maxIdx = i;
@@ -113,11 +119,14 @@ public class DataStorage {
                     min = graphPoints.get(i);
                 }
             }
+        //if there is a randomized value it is added to the graph
         }else{
             graphPoints.add(randVal);
+            //checks number of points in graph
             if (graphPoints.size() > 20) {
                 graphPoints.remove(graphPoints.getFirst());
             }
+            //checks if new max value
             for (int i = 0; i < graphPoints.size(); i++) {
                 if (graphPoints.get(i) > graphPoints.get(maxIdx)) {
                     maxIdx = i;
@@ -136,6 +145,7 @@ public class DataStorage {
      * @return value of new point
      */
     public double newRandom(){
+        //shows there is a random value and returns it
         rand = true;
         last = graphPoints.getLast();
         randVal = a.updateRandom(last);
