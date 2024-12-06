@@ -5,25 +5,65 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Main Logic Class.
+ *
+ * @author Oliver Taub
+ **/
+
 public class MainRunner {
 
+    /**DataStorage object referenced */
     DataStorage a;
+    /**GraphDrawing object referenced */
     GraphDrawing draw;
-    private static int mod;
-    private static int idx = 0;
+    /** seconds to run program for */
     private static int runTime;
+    /** value to check against for end conditions */
     private static int check;
-    private static int cycles = 0;
+    /**random event chance */
+    private static int mod;
+    /**number of run cycles */
+    private static int idx = 0;
+    /**number of seconds per cycle */
     private static int s;
+    /**value from random event */
     private static double randomized;
+    /**true = run program
+     * false = program ended */
     private static boolean run = true;
+    /** */
     private static boolean inf;
+    /**true = end condition
+     * false = no end condition */
+    private static boolean condition = false;
+    /**true = greater than check
+     * false = less than check */
+    private static boolean greater = false;
+    /**true = compare to avg value
+     * false = compare to min/max value */
+    private static boolean avg = false;
+    /**true = random event occurred
+     * false = normal value */
     private static boolean random;
-    private static boolean condition;
-    private static boolean greater;
-    private static boolean avg;
+    /**time unit of seconds */
     private static final TimeUnit time = TimeUnit.SECONDS;
 
+    /**
+     * instantiates a MainRunner object.<p>
+     * imports most variables from Main.java.
+     *
+     * @param data DataStorage object used in Main.java
+     * @param drawing GraphDrawing object used in Main.java
+     * @param runTime seconds to run program for
+     * @param s seconds per cycle
+     * @param mod random event chance
+     * @param check value to check end conditions against
+     * @param inf program run infinitely
+     * @param condition program have an end condition
+     * @param greater check for greater than check value
+     * @param avg check avg instead of min/max
+     */
     public MainRunner(DataStorage data, GraphDrawing drawing, int runTime, int s, int mod, int check, boolean inf, boolean condition, boolean greater, boolean avg){
         a = data;
         draw = drawing;
@@ -37,6 +77,9 @@ public class MainRunner {
         MainRunner.check = check;
     }
 
+    /**
+     * start method, calls run and randomEvent in parallel.
+     */
     public void start() {
         Callable<Void> callable1 = new Callable<Void>() {
             @Override
@@ -61,14 +104,25 @@ public class MainRunner {
         } catch (InterruptedException _) {}
     }
 
-    public int getCycles(){
-        return cycles;
+    /**
+     * getter method for number of cycles.
+     *
+     * @return number of cycles
+     */
+    public int getIdx(){
+        return idx;
     }
 
+    /**
+     * main runner method.
+     *
+     * @param data DataStorage object used
+     * @param draw GraphDrawing object used
+     * @throws InterruptedException catches InterruptedException from time.sleep
+     */
     private static void run(DataStorage data, GraphDrawing draw) throws InterruptedException {
         while (run){
             idx++;
-            cycles ++;
             if(end(data)){
                 run = false;
                 break;
@@ -87,6 +141,14 @@ public class MainRunner {
         }
     }
 
+    /**
+     * random events method.<p>
+     * randomly decides if random event occurs every cycle, creates new data point with random event rules
+     *
+     * @param mod random event chance modifier
+     * @param data DataStorage object used
+     * @throws InterruptedException catches InterruptedException from time.sleep
+     */
     private static void randomEvent(int mod, DataStorage data) throws InterruptedException {
         while (run) {
             if (Math.random() * (1+(mod / 100.0)) >= 0.95) {
@@ -97,6 +159,13 @@ public class MainRunner {
         }
     }
 
+    /**
+     * end condition checker.<p>
+     * checks end conditions and returns true to terminate the program.
+     *
+     * @param data DataStorage object used
+     * @return true if end condition met, false otherwise
+     */
     private static boolean end(DataStorage data){
         if(condition){
             if(avg){

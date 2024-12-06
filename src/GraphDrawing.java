@@ -1,7 +1,26 @@
 import java.util.ArrayList;
 
+/**
+ * String Building Class.<p>
+ * builds graph to display as a string.
+ *
+ * @author Oliver Taub
+ **/
 public class GraphDrawing {
 
+    /** instantiates a GraphDrawing object */
+    public GraphDrawing(){}
+
+    /**
+     * builds a string for the graph.<p>
+     * builds row by row, top down right to left.<p>
+     * highlights max value.<p>
+     * displays points as rounded to the nearest 10.
+     *
+     * @param points ArrayList of points to graph
+     * @param max Largest value on the graph
+     * @return graph as a string
+     */
     public String drawGraph(ArrayList<Double> points, int max){
 
         StringBuilder graph = new StringBuilder("\n||====================================================================================================||\n");

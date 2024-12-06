@@ -1,5 +1,6 @@
 /**
- * This class determines new values for a graph based on the current value
+ * Value Determination Class.<p>
+ * Determines new values for a graph based on the current value.
  *
  * @author Oliver Taub
  **/

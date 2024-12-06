@@ -1,15 +1,36 @@
 import java.util.Scanner;
 
+/**
+ * Main Executor Class.
+ *
+ * @author Oliver Taub
+ **/
 public class Main {
 
+    /** seconds to run program for */
     private static int runTime;
+    /** random event chance */
     private static int mod;
+    /** value to check against for end conditions */
     private static int check;
+    /**true = repeat infinitely
+     * false = terminates */
     private static boolean inf;
+    /**true = end condition
+     * false = no end condition */
     private static boolean condition = false;
+    /**true = greater than check
+     * false = less than check */
     private static boolean greater = false;
+    /**true = compare to avg value
+     * false = compare to min/max value */
     private static boolean avg = false;
 
+    /**
+     * main executable.
+     *
+     * @param args main method
+     */
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         GraphDrawing draw = new GraphDrawing();
@@ -114,6 +135,6 @@ public class Main {
         System.out.printf("\nThe average value is $%.2f%n",a.getAvg());
         System.out.printf("The max value is $%.2f%n",a.getMax());
         System.out.printf("The minimum value is $%.2f%n",a.getMin());
-        System.out.println("There were "+runner.getCycles()+" points added total.");
+        System.out.println("There were "+runner.getIdx()+" points added total.");
     }
 }
