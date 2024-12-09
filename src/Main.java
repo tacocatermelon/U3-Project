@@ -12,6 +12,8 @@ public class Main {
     /** random event chance */
     private static int mod;
     /** value to check against for end conditions */
+    private static int randS;
+    /**value from random event */
     private static int check;
     /**true = repeat infinitely
      * false = terminates */
@@ -142,7 +144,14 @@ public class Main {
         //random events prompt
         scan.nextLine();
         System.out.print("Would you like a chance for random events? (y/n): ");
-        if(scan.nextLine().equals("y")){
+        boolean rand = false;
+        String temp = scan.nextLine();
+        while (!(temp.equals("y")||temp.equals("n"))){
+            System.out.print("Please enter either y or n: ");
+            temp = scan.nextLine();
+        }
+        if(temp.equals("y")){
+            rand = true;
             //random value chance modifier and valid range checker
             System.out.print("What chance for a random event would you like (0-100): ");
             mod = scan.nextInt();
@@ -150,10 +159,16 @@ public class Main {
                 System.out.print("Please enter a value value (0-100): ");
                 mod = scan.nextInt();
             }
+            System.out.print("How often would you like random events to occur? (in seconds) ");
+            randS = scan.nextInt();
+            while (randS<1){
+                System.out.print("Please enter a value greater than 1: ");
+                randS = scan.nextInt();
+            }
         }
 
         //creates new MainRunner logic object with all user inputted info
-        MainRunner runner = new MainRunner(a, draw, runTime, s, mod, check, inf, condition, greater, avg);
+        MainRunner runner = new MainRunner(a, draw, runTime, s, mod, check, randS, inf, condition, greater, avg, rand);
         //starts execution
         runner.start();
 
@@ -163,5 +178,6 @@ public class Main {
         System.out.printf("The max value is $%.2f%n",a.getMax());
         System.out.printf("The minimum value is $%.2f%n",a.getMin());
         System.out.println("There were "+runner.getIdx()+" points added total.");
+        System.out.println("There were "+runner.getRandCount()+" random events.");
     }
 }

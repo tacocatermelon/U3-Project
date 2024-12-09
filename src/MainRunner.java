@@ -27,8 +27,10 @@ public class MainRunner {
     private static int idx = 0;
     /**number of seconds per cycle */
     private static int s;
-    /**value from random event */
-    private static double randomized;
+    /**number of seconds between random event checks */
+    private static int randS;
+    /**number of random events that occured */
+    private static int randCount = 0;
     /**true = run program
      * false = program ended */
     private static boolean run = true;
@@ -43,9 +45,9 @@ public class MainRunner {
     /**true = compare to avg value
      * false = compare to min/max value */
     private static boolean avg = false;
-    /**true = random event occurred
-     * false = normal value */
-    private static boolean random;
+    /**true = random events possible
+     * false = no random events*/
+    private static boolean rand = false;
     /**time unit of seconds */
     private static final TimeUnit time = TimeUnit.SECONDS;
 
@@ -64,17 +66,19 @@ public class MainRunner {
      * @param greater check for greater than check value
      * @param avg check avg instead of min/max
      */
-    public MainRunner(DataStorage data, GraphDrawing drawing, int runTime, int s, int mod, int check, boolean inf, boolean condition, boolean greater, boolean avg){
+    public MainRunner(DataStorage data, GraphDrawing drawing, int runTime, int s, int mod, int check, int randS, boolean inf, boolean condition, boolean greater, boolean avg, boolean rand){
         a = data;
         draw = drawing;
         MainRunner.runTime = runTime;
         MainRunner.s = s;
         MainRunner.mod = mod;
+        MainRunner.randS = randS;
         MainRunner.inf = inf;
         MainRunner.condition = condition;
         MainRunner.greater = greater;
         MainRunner.avg = avg;
         MainRunner.check = check;
+        MainRunner.rand = rand;
     }
 
     /**
@@ -118,6 +122,15 @@ public class MainRunner {
     }
 
     /**
+     * getter method for number of random events
+     *
+     * @return number of random events
+     */
+    public int getRandCount(){
+        return randCount;
+    }
+
+    /**
      * main runner method.
      *
      * @param data DataStorage object used
@@ -143,10 +156,6 @@ public class MainRunner {
             System.out.printf("Price: $%.2f%n",data.getCurrentPoint());
             System.out.printf("Avg Price: $%.2f%n",data.getAvg());
             //prints randomized value if applicable
-            if(random){
-                System.out.printf("RANDOM EVENT! new value: $%.2f%n",randomized);
-                random = false;
-            }
         }
     }
 
@@ -160,13 +169,16 @@ public class MainRunner {
      */
     private static void randomEvent(int mod, DataStorage data) throws InterruptedException {
         while (run) {
-            //determines if random event
-            if (Math.random() * (1+(mod / 100.0)) >= 0.95) {
-                random = true;
-                randomized = data.newRandom();
+            if(rand) {
+                //determines if random event
+                if (Math.random() * (1 + (mod / 100.0)) >= 0.95) {
+                    double randomized = data.newRandom();
+                    randCount++;
+                    System.out.printf("RANDOM EVENT! new value: $%.2f%n", randomized);
+                }
+                //time delay
+                time.sleep(randS);
             }
-            //time delay
-            time.sleep(s);
         }
     }
 
